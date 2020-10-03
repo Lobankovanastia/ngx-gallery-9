@@ -1,16 +1,29 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, ElementRef, SimpleChanges, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnChanges,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  SimpleChanges,
+  HostListener,
+  AfterViewInit, Inject, PLATFORM_ID, AfterContentInit
+} from '@angular/core';
 import { NgxGalleryOrderedImage } from '../ngx-gallery-ordered-image.model';
 import { NgxGalleryAction } from '../ngx-gallery-action.model';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryHelperService } from '../ngx-gallery-helper.service';
 import { NgxGalleryAnimation } from '../ngx-gallery-animation.model';
+import {isPlatformBrowser} from '@angular/common';
+import {NgxGalleryMediumImageSize} from '../ngx-gallery-image.model';
 
 @Component({
   selector: 'ngx-gallery-image',
   templateUrl: './ngx-gallery-image.component.html',
   styleUrls: ['./ngx-gallery-image.component.scss']
 })
-export class NgxGalleryImageComponent implements OnInit, OnChanges {
+export class NgxGalleryImageComponent implements OnInit, OnChanges, AfterContentInit {
   @Input() images: NgxGalleryOrderedImage[];
   @Input() clickable: boolean;
   @Input() selectedIndex: number;
@@ -34,12 +47,18 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
   @Output() onClick = new EventEmitter();
   @Output() onActiveChange = new EventEmitter();
 
+  private elementSize: NgxGalleryMediumImageSize;
+
   canChangeImage = true;
 
   private timer;
 
-  constructor(private sanitization: DomSanitizer,
-      private elementRef: ElementRef, private helperService: NgxGalleryHelperService) {}
+  constructor(
+    private sanitization: DomSanitizer,
+    private elementRef: ElementRef,
+    private helperService: NgxGalleryHelperService,
+    @Inject(PLATFORM_ID) private platformId: any
+  ) {}
 
   ngOnInit(): void {
       if (this.arrows && this.arrowsAutoHide) {
@@ -55,6 +74,18 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
       if (changes['swipe']) {
           this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', () => this.showNext(), () => this.showPrev());
       }
+  }
+
+  ngAfterContentInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.elementSize = new NgxGalleryMediumImageSize(
+        {
+                width: this.elementRef.nativeElement.offsetWidth,
+                height: this.elementRef.nativeElement.offsetHeight
+            }
+        );
+      this.setImageClasses();
+    }
   }
 
   @HostListener('mouseenter') onMouseEnter() {
@@ -79,6 +110,19 @@ export class NgxGalleryImageComponent implements OnInit, OnChanges {
 
   reset(index: number): void {
       this.selectedIndex = index;
+  }
+
+  setImageClasses(): void {
+    if (this.elementSize === undefined) { return; }
+    for (const image of this.images) {
+      if (image.size !== undefined && image.size !== null) {
+        image.class = image.size.width <= this.elementSize.width && image.size.height <= this.elementSize.height ?
+          ' display-background-auto' :
+          ' display-background-contain';
+      } else {
+        image.class = ' display-background-contain';
+      }
+    }
   }
 
   getImages(): NgxGalleryOrderedImage[] {

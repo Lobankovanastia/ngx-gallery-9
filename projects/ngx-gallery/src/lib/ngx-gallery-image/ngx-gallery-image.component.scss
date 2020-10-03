@@ -103,3 +103,11 @@
     bottom: 0px;
     z-index: 10;
 }
+
+.display-background-auto {
+  background-size: auto !important;
+}
+
+.display-background-contain {
+  background-size: contain !important;
+}
