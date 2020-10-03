@@ -1,9 +1,9 @@
-import { OnInit, OnChanges, EventEmitter, ElementRef, SimpleChanges, AfterContentInit } from '@angular/core';
+import { OnInit, OnChanges, EventEmitter, ElementRef, SimpleChanges, AfterContentInit, AfterViewChecked } from '@angular/core';
 import { NgxGalleryOrderedImage } from '../ngx-gallery-ordered-image.model';
 import { NgxGalleryAction } from '../ngx-gallery-action.model';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryHelperService } from '../ngx-gallery-helper.service';
-export declare class NgxGalleryImageComponent implements OnInit, OnChanges, AfterContentInit {
+export declare class NgxGalleryImageComponent implements OnInit, OnChanges, AfterContentInit, AfterViewChecked {
     private sanitization;
     private elementRef;
     private helperService;
@@ -35,6 +35,7 @@ export declare class NgxGalleryImageComponent implements OnInit, OnChanges, Afte
     constructor(sanitization: DomSanitizer, elementRef: ElementRef, helperService: NgxGalleryHelperService, platformId: any);
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
+    ngAfterViewChecked(): void;
     ngAfterContentInit(): void;
     onMouseEnter(): void;
     onMouseLeave(): void;

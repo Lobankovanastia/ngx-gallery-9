@@ -698,6 +698,12 @@ let NgxGalleryImageComponent = class NgxGalleryImageComponent {
             this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', () => this.showNext(), () => this.showPrev());
         }
     }
+    ngAfterViewChecked() {
+        if (this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
+            this.elementSize.height !== this.elementRef.nativeElement.offsetHeight) {
+            this.ngAfterContentInit();
+        }
+    }
     ngAfterContentInit() {
         if (isPlatformBrowser(this.platformId)) {
             this.elementSize = new NgxGalleryMediumImageSize({

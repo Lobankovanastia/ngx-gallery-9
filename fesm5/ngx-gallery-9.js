@@ -724,6 +724,12 @@ var NgxGalleryImageComponent = /** @class */ (function () {
             this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', function () { return _this.showNext(); }, function () { return _this.showPrev(); });
         }
     };
+    NgxGalleryImageComponent.prototype.ngAfterViewChecked = function () {
+        if (this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
+            this.elementSize.height !== this.elementRef.nativeElement.offsetHeight) {
+            this.ngAfterContentInit();
+        }
+    };
     NgxGalleryImageComponent.prototype.ngAfterContentInit = function () {
         if (isPlatformBrowser(this.platformId)) {
             this.elementSize = new NgxGalleryMediumImageSize({
