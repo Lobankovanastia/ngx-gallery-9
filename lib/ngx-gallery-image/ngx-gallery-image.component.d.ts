@@ -1,9 +1,9 @@
-import { OnInit, OnChanges, EventEmitter, ElementRef, SimpleChanges, AfterContentInit, AfterViewChecked } from '@angular/core';
+import { OnInit, OnChanges, EventEmitter, ElementRef, SimpleChanges, AfterViewChecked } from '@angular/core';
 import { NgxGalleryOrderedImage } from '../ngx-gallery-ordered-image.model';
 import { NgxGalleryAction } from '../ngx-gallery-action.model';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgxGalleryHelperService } from '../ngx-gallery-helper.service';
-export declare class NgxGalleryImageComponent implements OnInit, OnChanges, AfterContentInit, AfterViewChecked {
+export declare class NgxGalleryImageComponent implements OnInit, OnChanges, AfterViewChecked {
     private sanitization;
     private elementRef;
     private helperService;
@@ -36,7 +36,6 @@ export declare class NgxGalleryImageComponent implements OnInit, OnChanges, Afte
     ngOnInit(): void;
     ngOnChanges(changes: SimpleChanges): void;
     ngAfterViewChecked(): void;
-    ngAfterContentInit(): void;
     onMouseEnter(): void;
     onMouseLeave(): void;
     reset(index: number): void;
@@ -52,4 +51,5 @@ export declare class NgxGalleryImageComponent implements OnInit, OnChanges, Afte
     canShowNext(): boolean;
     canShowPrev(): boolean;
     getSafeUrl(image: string): SafeStyle;
+    private setSizesAndClasses;
 }

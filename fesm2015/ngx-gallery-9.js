@@ -699,18 +699,11 @@ let NgxGalleryImageComponent = class NgxGalleryImageComponent {
         }
     }
     ngAfterViewChecked() {
-        if (this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
-            this.elementSize.height !== this.elementRef.nativeElement.offsetHeight) {
-            this.ngAfterContentInit();
-        }
-    }
-    ngAfterContentInit() {
-        if (isPlatformBrowser(this.platformId)) {
-            this.elementSize = new NgxGalleryMediumImageSize({
-                width: this.elementRef.nativeElement.offsetWidth,
-                height: this.elementRef.nativeElement.offsetHeight
-            });
-            this.setImageClasses();
+        if (isPlatformBrowser(this.platformId) &&
+            (this.elementSize === undefined ||
+                this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
+                this.elementSize.height !== this.elementRef.nativeElement.offsetHeight)) {
+            this.setSizesAndClasses();
         }
     }
     onMouseEnter() {
@@ -853,6 +846,13 @@ let NgxGalleryImageComponent = class NgxGalleryImageComponent {
     }
     getSafeUrl(image) {
         return this.sanitization.bypassSecurityTrustStyle(this.helperService.getBackgroundUrl(image));
+    }
+    setSizesAndClasses() {
+        this.elementSize = new NgxGalleryMediumImageSize({
+            width: this.elementRef.nativeElement.offsetWidth,
+            height: this.elementRef.nativeElement.offsetHeight
+        });
+        this.setImageClasses();
     }
 };
 NgxGalleryImageComponent.ctorParameters = () => [
