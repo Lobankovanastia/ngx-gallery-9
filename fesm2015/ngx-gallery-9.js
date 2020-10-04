@@ -694,11 +694,11 @@ let NgxGalleryImageComponent = class NgxGalleryImageComponent {
         }
     }
     ngOnChanges(changes) {
-        if (changes['swipe']) {
+        if (changes.swipe) {
             this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', () => this.showNext(), () => this.showPrev());
         }
     }
-    ngAfterViewChecked() {
+    ngAfterContentChecked() {
         if (isPlatformBrowser(this.platformId) &&
             (this.elementSize === undefined ||
                 this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
@@ -745,22 +745,22 @@ let NgxGalleryImageComponent = class NgxGalleryImageComponent {
             return [];
         }
         if (this.lazyLoading) {
-            let indexes = [this.selectedIndex];
-            let prevIndex = this.selectedIndex - 1;
+            const indexes = [this.selectedIndex];
+            const prevIndex = this.selectedIndex - 1;
             if (prevIndex === -1 && this.infinityMove) {
                 indexes.push(this.images.length - 1);
             }
             else if (prevIndex >= 0) {
                 indexes.push(prevIndex);
             }
-            let nextIndex = this.selectedIndex + 1;
-            if (nextIndex == this.images.length && this.infinityMove) {
+            const nextIndex = this.selectedIndex + 1;
+            if (nextIndex === this.images.length && this.infinityMove) {
                 indexes.push(0);
             }
             else if (nextIndex < this.images.length) {
                 indexes.push(nextIndex);
             }
-            return this.images.filter((img, i) => indexes.indexOf(i) != -1);
+            return this.images.filter((img, i) => indexes.indexOf(i) !== -1);
         }
         else {
             return this.images;

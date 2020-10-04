@@ -918,11 +918,11 @@
         };
         NgxGalleryImageComponent.prototype.ngOnChanges = function (changes) {
             var _this = this;
-            if (changes['swipe']) {
+            if (changes.swipe) {
                 this.helperService.manageSwipe(this.swipe, this.elementRef, 'image', function () { return _this.showNext(); }, function () { return _this.showPrev(); });
             }
         };
-        NgxGalleryImageComponent.prototype.ngAfterViewChecked = function () {
+        NgxGalleryImageComponent.prototype.ngAfterContentChecked = function () {
             if (common.isPlatformBrowser(this.platformId) &&
                 (this.elementSize === undefined ||
                     this.elementSize.width !== this.elementRef.nativeElement.offsetWidth ||
@@ -989,13 +989,13 @@
                     indexes_1.push(prevIndex);
                 }
                 var nextIndex = this.selectedIndex + 1;
-                if (nextIndex == this.images.length && this.infinityMove) {
+                if (nextIndex === this.images.length && this.infinityMove) {
                     indexes_1.push(0);
                 }
                 else if (nextIndex < this.images.length) {
                     indexes_1.push(nextIndex);
                 }
-                return this.images.filter(function (img, i) { return indexes_1.indexOf(i) != -1; });
+                return this.images.filter(function (img, i) { return indexes_1.indexOf(i) !== -1; });
             }
             else {
                 return this.images;
